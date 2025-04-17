@@ -1,13 +1,23 @@
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 import Book from "/public/assets/books/Book_1.png";
 
-import StarRating from "../../components/star-rating";
+import StarRating from "./star-rating";
 
-export default function PopularBookCard() {
+interface PopularBookCardProps {
+  className?: string;
+}
+
+export default function PopularBookCard({ className }: PopularBookCardProps) {
   return (
-    <div className="flex w-full gap-5 rounded-lg bg-gray-700 px-5 py-[18px]">
-      <Image src={Book} height={92} alt="Capa do Livro" />
+    <div
+      className={twMerge(
+        "flex w-full gap-5 rounded-lg bg-gray-700 px-5 py-[18px]",
+        className,
+      )}
+    >
+      <Image src={Book} alt="Capa do Livro" />
       <div className="flex flex-col justify-between">
         <div>
           <h3 className="leading-14 font-semibold text-gray-100">

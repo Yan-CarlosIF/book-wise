@@ -32,7 +32,7 @@ export default function Navbar() {
         <button
           onClick={() => handleButtonClick("/home/inicio")}
           className={twMerge(
-            "flex cursor-pointer items-stretch gap-4 text-gray-400 hover:text-gray-100",
+            "durantion-200 flex cursor-pointer items-stretch gap-4 text-gray-400 transition-colors ease-in-out hover:text-gray-100",
             isHomePage && "text-gray-100",
           )}
         >
@@ -49,7 +49,7 @@ export default function Navbar() {
         <button
           onClick={() => handleButtonClick("/home/explorar")}
           className={twMerge(
-            "flex cursor-pointer items-stretch gap-4 text-gray-400 hover:text-gray-100",
+            "durantion-200 flex cursor-pointer items-stretch gap-4 text-gray-400 transition-colors ease-in-out hover:text-gray-100",
             isExplorerPage && "text-gray-100",
           )}
         >
@@ -66,7 +66,7 @@ export default function Navbar() {
         <button
           onClick={() => handleButtonClick("/home/perfil")}
           className={twMerge(
-            "flex cursor-pointer items-stretch gap-4 text-gray-400 hover:text-gray-100",
+            "durantion-200 flex cursor-pointer items-stretch gap-4 text-gray-400 transition-colors ease-in-out hover:text-gray-100",
             isProfilePage && "text-gray-100",
           )}
         >
