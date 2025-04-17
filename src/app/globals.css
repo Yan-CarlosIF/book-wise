@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@layer utilities {
+  /* Firefox e Explorer */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Chrome, Safari e Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .bg-gradient-horizontal {
   background: linear-gradient(to right, #7fd1cc, #9694f5);
 }
