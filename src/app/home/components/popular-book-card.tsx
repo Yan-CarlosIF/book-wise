@@ -11,15 +11,15 @@ interface PopularBookCardProps {
 
 export default function PopularBookCard({ className }: PopularBookCardProps) {
   return (
-    <div
+    <button
       className={twMerge(
-        "flex w-full gap-5 rounded-lg bg-gray-700 px-5 py-[18px]",
+        "flex w-full cursor-pointer gap-5 rounded-lg bg-gray-700 px-5 py-[18px]",
         className,
       )}
     >
       <Image src={Book} alt="Capa do Livro" />
       <div className="flex flex-col justify-between">
-        <div>
+        <div className="text-start">
           <h3 className="leading-14 font-semibold text-gray-100">
             Entendendo Algoritmos
           </h3>
@@ -29,6 +29,6 @@ export default function PopularBookCard({ className }: PopularBookCardProps) {
         </div>
         <StarRating />
       </div>
-    </div>
+    </button>
   );
 }

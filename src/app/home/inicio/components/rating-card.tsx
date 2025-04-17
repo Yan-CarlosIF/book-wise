@@ -11,7 +11,7 @@ export default function RatingCard() {
     <div className="flex flex-col rounded-lg bg-gray-700 p-6">
       <header className="flex justify-between">
         <div className="flex gap-4">
-          <div className="from-gradient1 to-gradient2 h-10 w-10 rounded-full bg-gradient-to-b p-[1px]">
+          <div className="from-gradient1 to-gradient2 h-10 w-10 rounded-full bg-gradient-to-b p-[2px]">
             <Image
               src="https://github.com/yan-carlosif.png"
               alt="foto de perfil"

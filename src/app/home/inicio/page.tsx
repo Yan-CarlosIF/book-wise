@@ -13,7 +13,7 @@ export default function Home() {
           <h3 className="mb-3 text-sm text-gray-100">
             Avaliações mais recentes
           </h3>
-          <nav className="scrollbar-hide flex h-[calc(100vh-182px)] flex-col gap-3 overflow-scroll scroll-smooth">
+          <nav className="scrollbar-hide flex h-[calc(100vh-205px)] flex-col gap-3 overflow-scroll scroll-smooth rounded-xs">
             <RatingCard />
             <RatingCard />
             <RatingCard />
