@@ -14,6 +14,25 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f111a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #2a2f48;
+    border-radius: 10px;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2f48 #0f111a;
+  }
 }
 
 .bg-gradient-horizontal {

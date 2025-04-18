@@ -30,6 +30,7 @@ export default function Home() {
             <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
             <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
             <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
+            <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
           </nav>
         </div>
       </div>
