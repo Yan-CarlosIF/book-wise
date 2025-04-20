@@ -1,7 +1,7 @@
 import Navbar from "./components/navbar";
 
 export const metadata = {
-  title: "Chama",
+  title: "Home | BookWise",
   description: "Aplicação com layout",
 };
 

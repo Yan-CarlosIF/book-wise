@@ -6,6 +6,7 @@ import RatingCard from "./components/rating-card";
 
 export default async function Home() {
   const ratings = await prisma.rating.findMany({
+    orderBy: { created_at: "desc" },
     include: {
       book: true,
       user: true,
@@ -20,12 +21,12 @@ export default async function Home() {
         include: {
           categories: {
             include: {
-              category: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
+              category: true,
+            },
+          },
+          ratings: {
+            include: {
+              user: true,
             },
           },
         },
@@ -55,7 +56,7 @@ export default async function Home() {
             </h3>
             <Link />
           </div>
-          <nav className="scrollbar-hide flex h-[calc(100vh-182px)] flex-col gap-3 overflow-scroll scroll-smooth">
+          <nav className="scrollbar-hide flex h-[calc(100vh-200px)] flex-col gap-3 overflow-scroll scroll-smooth">
             {betterRatedBooks.map((rating) => (
               <PopularBookCard
                 key={rating.book_id}

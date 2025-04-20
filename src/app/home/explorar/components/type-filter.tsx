@@ -21,7 +21,7 @@ export default function TypeFilter() {
           key={filter.value}
           value={filter.value}
           className={twMerge(
-            "w-fit cursor-pointer rounded-full border border-purple-100 text-purple-100 transition-colors duration-200 ease-in-out hover:border-purple-200 hover:bg-purple-200 hover:text-gray-100 data-[state=on]:border-purple-200 data-[state=on]:bg-purple-200 data-[state=on]:text-gray-100",
+            "w-fit cursor-pointer rounded-full border border-purple-100 text-purple-100 transition-colors duration-200 ease-in-out hover:bg-purple-200 hover:text-gray-100 data-[state=on]:border-purple-200 data-[state=on]:bg-purple-200 data-[state=on]:text-gray-100",
             index === 0 && "first:rounded-full",
             index === filters.length - 1 && "last:rounded-full",
           )}

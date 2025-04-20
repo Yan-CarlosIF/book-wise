@@ -12,7 +12,11 @@ export default async function Explorer() {
           category: true,
         },
       },
-      ratings: true,
+      ratings: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
 

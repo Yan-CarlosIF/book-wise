@@ -5,14 +5,25 @@ import Image from "next/image";
 import StarRating from "./star-rating";
 import { BookmarkSimple, BookOpen } from "phosphor-react";
 import Comment from "./comment";
-import { Book, CategoriesOnBooks, Category } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
-type CategoryProps = CategoriesOnBooks & { category: Category };
-
-type BookProps = Book & { categories: CategoryProps[] };
+type BookWithCategoriesAndRatings = Prisma.BookGetPayload<{
+  include: {
+    categories: {
+      include: {
+        category: true;
+      };
+    };
+    ratings: {
+      include: {
+        user: true;
+      };
+    };
+  };
+}>;
 
 interface BookDetailsProps {
-  book: BookProps;
+  book: BookWithCategoriesAndRatings;
   rate: number;
 }
 
@@ -22,7 +33,7 @@ export default function BookDetails({ book, rate }: BookDetailsProps) {
     .join(", ");
 
   return (
-    <SheetContent className="flex !w-[660px] !max-w-[660px] flex-col overflow-y-scroll border-none bg-gray-800 px-12 py-16 outline-none [&>button]:cursor-pointer [&>button]:text-gray-400">
+    <SheetContent className="flex !w-[660px] !max-w-[660px] flex-col overflow-y-scroll border-none bg-gray-800 px-12 py-16 outline-none [&>button]:cursor-pointer [&>button]:p-1 [&>button]:text-gray-400 [&>button]:transition-all [&>button]:duration-300 [&>button]:ease-in-out [&>button]:hover:bg-gray-600 [&>button]:hover:text-gray-100">
       <SheetTitle className="sr-only">Detalhes do Livro</SheetTitle>
       <div className="flex flex-col rounded-[10px] bg-gray-700 p-6">
         <div className="flex gap-8">
@@ -40,7 +51,7 @@ export default function BookDetails({ book, rate }: BookDetailsProps) {
             <div className="mt-auto">
               <StarRating rate={rate} />
               <span className="text-sm leading-16 text-gray-400">
-                3 avaliações
+                {`${book.ratings.length} ${book.ratings.length === 1 ? "avaliação" : "avaliações"}`}
               </span>
             </div>
           </div>
@@ -71,9 +82,9 @@ export default function BookDetails({ book, rate }: BookDetailsProps) {
         </button>
       </div>
       <div className="mt-4 flex flex-col gap-3">
-        <Comment />
-        <Comment />
-        <Comment />
+        {book.ratings.map((rating) => (
+          <Comment key={rating.id} rating={rating} />
+        ))}
       </div>
     </SheetContent>
   );

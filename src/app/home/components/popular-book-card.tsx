@@ -6,16 +6,27 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import LoginModal from "./login-modal";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import BookDetails from "./book-details";
-import { Book, CategoriesOnBooks, Category } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
-type CategoryProps = CategoriesOnBooks & { category: Category };
-
-type BookProps = Book & { categories: CategoryProps[] };
+type BookWithCategoriesAndRatings = Prisma.BookGetPayload<{
+  include: {
+    categories: {
+      include: {
+        category: true;
+      };
+    };
+    ratings: {
+      include: {
+        user: true;
+      };
+    };
+  };
+}>;
 
 interface PopularBookCardProps {
   className?: string;
-  book: BookProps;
+  book: BookWithCategoriesAndRatings;
 }
 
 export default async function PopularBookCard({
@@ -39,7 +50,7 @@ export default async function PopularBookCard({
       <SheetTrigger asChild>
         <button
           className={twMerge(
-            "flex w-full cursor-pointer gap-5 rounded-lg bg-gray-700 px-5 py-[18px] outline-none",
+            "flex w-full cursor-pointer gap-5 rounded-lg border-2 border-transparent bg-gray-700 px-5 py-[18px] transition-all duration-300 ease-in-out outline-none hover:border-gray-500 hover:bg-gray-600",
             className,
           )}
         >
@@ -66,7 +77,7 @@ export default async function PopularBookCard({
     </Sheet>
   ) : (
     <Dialog>
-      <DialogTrigger asChild disabled={logado}>
+      <DialogTrigger asChild>
         <button
           className={twMerge(
             "flex w-full cursor-pointer gap-5 rounded-lg bg-gray-700 px-5 py-[18px] outline-none",
