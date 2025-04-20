@@ -1,14 +1,33 @@
 "use client";
 
+import { useSearchParams, useRouter } from "next/navigation";
 import { MagnifyingGlass } from "phosphor-react";
+import { InputHTMLAttributes, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps {
-  className?: string;
-  placeholder: string;
-}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export default function Input({ className, placeholder }: InputProps) {
+export default function Input({
+  className,
+  placeholder,
+  name,
+  ...props
+}: InputProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [value, setValue] = useState(searchParams.get("Search") || "");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (value) {
+      params.set(name || "Search", value);
+    } else {
+      params.delete(name || "Search");
+    }
+    router.replace(`?${params.toString()}`);
+  }, [value, name, router]);
+
   return (
     <div
       className={twMerge(
@@ -17,7 +36,10 @@ export default function Input({ className, placeholder }: InputProps) {
       )}
     >
       <input
+        {...props}
         type="text"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         className="flex w-full rounded-sm border border-gray-500 px-5 py-3 text-gray-200 transition-colors duration-200 ease-in-out placeholder:text-gray-400 focus:border-green-200 focus:caret-green-100 focus:outline-none"
       />
