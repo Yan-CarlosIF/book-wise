@@ -1,13 +1,21 @@
-"use client";
-
-import { MagnifyingGlass } from "phosphor-react";
-
+import { prisma } from "@/lib/prisma";
 import HomeHeader from "../components/home-header";
 import PopularBookCard from "../components/popular-book-card";
 import TypeFilter from "./components/type-filter";
 import Input from "@/app/components/input";
 
-export default function Explorer() {
+export default async function Explorer() {
+  const books = await prisma.book.findMany({
+    include: {
+      categories: {
+        include: {
+          category: true,
+        },
+      },
+      ratings: true,
+    },
+  });
+
   return (
     <>
       <header className="flex justify-between">
@@ -16,18 +24,13 @@ export default function Explorer() {
       </header>
       <TypeFilter />
       <main className="scrollbar-hide mt-12 grid w-full grid-cols-3 gap-5 overflow-scroll scroll-smooth">
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
-        <PopularBookCard className="h-fit max-h-[184px]" />
+        {books.map((book) => (
+          <PopularBookCard
+            key={book.id}
+            book={book}
+            className="h-fit max-h-[184px]"
+          />
+        ))}
       </main>
     </>
   );

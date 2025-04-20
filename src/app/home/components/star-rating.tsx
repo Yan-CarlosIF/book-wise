@@ -1,15 +1,21 @@
 "use client";
 
-import { Star, StarHalf } from "phosphor-react";
+import { IconWeight, Star } from "phosphor-react";
 
-export default function StarRating() {
+interface StarRatingProps {
+  rate: number;
+}
+
+export default function StarRating({ rate }: StarRatingProps) {
+  const stars = Array.from({ length: 5 }, (_, i) => {
+    return { weight: i < rate ? "fill" : "regular" };
+  });
+
   return (
     <div className="flex gap-1 text-purple-100">
-      <Star size={16} weight="fill" />
-      <Star size={16} weight="fill" />
-      <Star size={16} weight="fill" />
-      <Star size={16} weight="fill" />
-      <StarHalf size={16} weight="fill" />
+      {stars.map((star, index) => (
+        <Star key={index} size={16} weight={star.weight as IconWeight} />
+      ))}
     </div>
   );
 }

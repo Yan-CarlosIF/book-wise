@@ -1,9 +1,38 @@
+import { prisma } from "@/lib/prisma";
 import HomeHeader from "../components/home-header";
 import PopularBookCard from "../components/popular-book-card";
 import Link from "./components/link";
 import RatingCard from "./components/rating-card";
 
-export default function Home() {
+export default async function Home() {
+  const ratings = await prisma.rating.findMany({
+    include: {
+      book: true,
+      user: true,
+    },
+  });
+
+  const betterRatedBooks = await prisma.rating.findMany({
+    orderBy: { rate: "desc" },
+    take: 4,
+    include: {
+      book: {
+        include: {
+          categories: {
+            include: {
+              category: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
   return (
     <>
       <HomeHeader />
@@ -14,9 +43,9 @@ export default function Home() {
             Avaliações mais recentes
           </h3>
           <nav className="scrollbar-hide flex h-[calc(100vh-205px)] flex-col gap-3 overflow-scroll scroll-smooth rounded-xs">
-            <RatingCard />
-            <RatingCard />
-            <RatingCard />
+            {ratings.map((rating) => (
+              <RatingCard key={rating.id} rating={rating} />
+            ))}
           </nav>
         </div>
         <div className="flex w-[324px] flex-col">
@@ -27,10 +56,13 @@ export default function Home() {
             <Link />
           </div>
           <nav className="scrollbar-hide flex h-[calc(100vh-182px)] flex-col gap-3 overflow-scroll scroll-smooth">
-            <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
-            <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
-            <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
-            <PopularBookCard className="[&>img]:h-[94px] [&>img]:w-[64px]" />
+            {betterRatedBooks.map((rating) => (
+              <PopularBookCard
+                key={rating.book_id}
+                book={rating.book}
+                className="[&>img]:h-[94px] [&>img]:w-[64px]"
+              />
+            ))}
           </nav>
         </div>
       </div>

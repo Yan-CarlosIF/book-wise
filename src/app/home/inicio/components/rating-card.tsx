@@ -1,48 +1,61 @@
-"use client";
-
 import Image from "next/image";
 
-import Book from "/public/assets/books/Book_1.png";
-
+import BookImg from "@/../public/images/books/arquitetura-limpa.png";
 import StarRating from "../../components/star-rating";
+import { Rating, Book, User } from "@prisma/client";
 
-export default function RatingCard() {
+import { differenceInDays } from "date-fns";
+
+type RatingProp = Rating & { book: Book; user: User };
+
+interface RatingCardProps {
+  rating: RatingProp;
+}
+
+export default function RatingCard({ rating }: RatingCardProps) {
+  const dateInDays = differenceInDays(new Date(), new Date(rating.created_at));
+
   return (
     <div className="flex flex-col rounded-lg bg-gray-700 p-6">
       <header className="flex justify-between">
         <div className="flex gap-4">
           <div className="from-gradient1 to-gradient2 h-10 w-10 rounded-full bg-gradient-to-b p-[2px]">
             <Image
-              src="https://github.com/yan-carlosif.png"
+              src={rating.user.avatar_url!}
               alt="foto de perfil"
-              width={40}
-              height={40}
+              width={36}
+              height={36}
+              style={{ height: "36px" }}
               className="rounded-full"
             />
           </div>
           <div className="flex flex-col self-center">
-            <h1 className="leading-16 text-gray-100">Yan Carlos</h1>
-            <span className="text-sm text-gray-400">Hoje</span>
+            <h1 className="leading-16 text-gray-100">{rating.user.name}</h1>
+            <span className="text-sm text-gray-400">
+              {dateInDays === 0
+                ? "Hoje"
+                : `Há ${dateInDays} ${dateInDays > 1 ? "dias" : "dia"}`}
+            </span>
           </div>
         </div>
-        <StarRating />
+        <StarRating rate={rating.rate} />
       </header>
       <main className="mt-8 flex w-full gap-5">
-        <Image src={Book} alt="Capa do Livro" />
+        <Image
+          src={rating.book.cover_url}
+          width={108}
+          height={152}
+          alt="Capa do Livro"
+        />
         <div className="flex flex-col gap-5">
           <header className="flex flex-col">
-            <h1 className="font-semibold text-gray-100">
-              Entendendo Algoritmos
-            </h1>
+            <h1 className="font-semibold text-gray-100">{rating.book.name}</h1>
             <span className="text-sm leading-16 text-gray-400">
-              Aditya Bhargava
+              {rating.book.author}
             </span>
           </header>
           <p className="line-clamp-4 text-justify text-sm leading-16 text-ellipsis text-gray-300">
-            Integer at tincidunt sed mi. Venenatis nunc justo porta viverra
-            lacus scelerisque ut orci ultricies. Massa ultrices lacus non lectus
-            pellentesque cras posuere neque. Nunc nisl curabitur et non. Tellus
-            senectus elit porta lorem.
+            {rating.description}
           </p>
         </div>
       </main>
