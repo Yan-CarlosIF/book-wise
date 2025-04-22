@@ -2,12 +2,20 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Binoculars, ChartLineUp, SignIn, User } from "phosphor-react";
+import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
 import { twMerge } from "tailwind-merge";
 
 import Logo from "../../../../public/favicon.svg";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import LoginModal from "./login-modal";
 
-export default function Navbar() {
+interface NavbarProps {
+  session: Session | null;
+}
+
+export default function Navbar({ session }: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -18,6 +26,11 @@ export default function Navbar() {
   const handleButtonClick = (path: string) => {
     router.push(path);
   };
+
+  const username =
+    session?.user?.name?.length! > 15
+      ? session?.user?.name?.slice(0, 15) + "..."
+      : session?.user?.name;
 
   return (
     <aside className="flex h-full w-[232px] flex-col items-center rounded-xl bg-[url(/navbar.png)] bg-cover bg-no-repeat">
@@ -63,27 +76,54 @@ export default function Navbar() {
           <span className="leading-16">Explorar</span>
         </button>
 
-        <button
-          onClick={() => handleButtonClick("/home/perfil")}
-          className={twMerge(
-            "durantion-200 flex cursor-pointer items-stretch gap-4 text-gray-400 transition-colors ease-in-out hover:text-gray-100",
-            isProfilePage && "text-gray-100",
-          )}
-        >
-          <div
+        {session && (
+          <button
+            onClick={() => handleButtonClick("/home/perfil")}
             className={twMerge(
-              "from-gradient1 to-gradient2 w-1 rounded-full bg-gradient-to-bl opacity-0",
-              isProfilePage && "opacity-100",
+              "durantion-200 flex cursor-pointer items-stretch gap-4 text-gray-400 transition-colors ease-in-out hover:text-gray-100",
+              isProfilePage && "text-gray-100",
             )}
-          ></div>
-          <User size={24} />
-          <span className="leading-16">Perfil</span>
-        </button>
+          >
+            <div
+              className={twMerge(
+                "from-gradient1 to-gradient2 w-1 rounded-full bg-gradient-to-bl opacity-0",
+                isProfilePage && "opacity-100",
+              )}
+            ></div>
+            <User size={24} />
+            <span className="leading-16">Perfil</span>
+          </button>
+        )}
       </div>
-      <button className="mt-auto mb-6 flex cursor-pointer items-center justify-center gap-3 font-semibold text-gray-200 hover:text-gray-100">
-        Fazer login
-        <SignIn size={20} className="text-green-100" />
-      </button>
+      {!session ? (
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="mt-auto mb-6 flex cursor-pointer items-center justify-center gap-3 font-semibold text-gray-200 hover:text-gray-100">
+              Fazer login
+              <SignIn size={20} className="text-green-100" />
+            </button>
+          </DialogTrigger>
+          <LoginModal />
+        </Dialog>
+      ) : (
+        <button
+          onClick={() => signOut()}
+          className="mt-auto mb-6 flex cursor-pointer items-center justify-center gap-3 text-sm font-normal text-gray-200 hover:text-gray-100"
+        >
+          <div className="from-gradient1 to-gradient2 flex size-8 items-center justify-center rounded-full bg-gradient-to-b p-[2px]">
+            <Image
+              src={session?.user?.image!}
+              alt="foto de perfil"
+              width={30}
+              height={30}
+              style={{ height: "30px" }}
+              className="rounded-full"
+            />
+          </div>
+          {username}
+          <SignOut size={20} className="text-red-400" />
+        </button>
+      )}
     </aside>
   );
 }

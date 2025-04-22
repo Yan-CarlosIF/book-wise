@@ -2,8 +2,14 @@ import Image from "next/image";
 
 import Logo from "../../public/favicon.svg";
 import LoginOptions from "./login-options";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+  const session = await getServerSession();
+
+  if (session) redirect("/home/inicio");
+
   return (
     <div className="flex items-center justify-around p-5">
       <div className="flex h-[870px] w-[600px] items-center justify-center rounded-lg bg-[url(/assets/home_logo.svg)] bg-cover bg-no-repeat">

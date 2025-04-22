@@ -7,6 +7,7 @@ import GithubLogo from "../../public/assets/brandsLogos/logos_github-icon.svg";
 import GoogleLogo from "../../public/assets/brandsLogos/logos_google-icon.svg";
 import RocketLogo from "../../public/assets/brandsLogos/logos_rocket-icon.svg";
 import LoginLabel from "./components/login-label";
+import { signIn } from "next-auth/react";
 
 export default function LoginOptions() {
   return (
@@ -19,14 +20,15 @@ export default function LoginOptions() {
       </p>
 
       <div className="mt-10 flex flex-col gap-4">
-        <LoginLabel
+        {/* <LoginLabel
           img={GoogleLogo as StaticImageData}
           content="Login com Google"
-        />
+        /> */}
         <LoginLabel
           className="fill-white"
           img={GithubLogo as StaticImageData}
           content="Login com GitHub"
+          onClick={() => signIn("github", { callbackUrl: "/home/inicio" })}
         />
         <LoginLabel
           img={RocketLogo as StaticImageData}
