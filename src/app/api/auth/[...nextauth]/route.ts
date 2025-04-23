@@ -1,8 +1,10 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
-import Github from "next-auth/providers/github";
 import "dotenv/config";
-import { prisma } from "@/lib/prisma";
+
+import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import Github from "next-auth/providers/github";
+
+import { prisma } from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,6 +34,7 @@ export const authOptions: NextAuthOptions = {
       if (!accountExists) {
         const createdUser = await prisma.user.create({
           data: {
+            id: user.id,
             name: user.name!,
             created_at: new Date(),
             avatar_url: user.image,
@@ -69,6 +72,11 @@ export const authOptions: NextAuthOptions = {
       }
 
       return true;
+    },
+
+    async jwt({ token, user }) {
+      if (user) token.id = user.id;
+      return token;
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {

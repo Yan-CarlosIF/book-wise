@@ -2,12 +2,12 @@
 
 import { StaticImageData } from "next/image";
 import { redirect } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 import GithubLogo from "../../public/assets/brandsLogos/logos_github-icon.svg";
 import GoogleLogo from "../../public/assets/brandsLogos/logos_google-icon.svg";
 import RocketLogo from "../../public/assets/brandsLogos/logos_rocket-icon.svg";
 import LoginLabel from "./components/login-label";
-import { signIn } from "next-auth/react";
 
 export default function LoginOptions() {
   return (

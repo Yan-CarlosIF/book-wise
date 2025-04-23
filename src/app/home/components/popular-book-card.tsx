@@ -1,13 +1,14 @@
+import { Prisma } from "@prisma/client";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
 import { twMerge } from "tailwind-merge";
 
-import StarRating from "./star-rating";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import LoginModal from "./login-modal";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import BookDetails from "./book-details";
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+
+import BookDetails from "./book-details";
+import StarRating from "./star-rating";
 
 type BookWithCategoriesAndRatings = Prisma.BookGetPayload<{
   include: {
@@ -33,7 +34,7 @@ export default async function PopularBookCard({
   className,
   book,
 }: PopularBookCardProps) {
-  const logado = true; // Simulando o estado de login do usuário
+  const session = await getServerSession(authOptions);
 
   const rates = await prisma.rating.findMany({
     where: {
@@ -45,7 +46,7 @@ export default async function PopularBookCard({
     rates.reduce((total, rate) => total + rate.rate, 0) / rates.length,
   );
 
-  return logado ? (
+  return (
     <Sheet>
       <SheetTrigger asChild>
         <button
@@ -73,37 +74,7 @@ export default async function PopularBookCard({
           </div>
         </button>
       </SheetTrigger>
-      <BookDetails book={book} rate={rate} />
+      <BookDetails book={book} rate={rate} session={session} />
     </Sheet>
-  ) : (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button
-          className={twMerge(
-            "flex w-full cursor-pointer gap-5 rounded-lg bg-gray-700 px-5 py-[18px] outline-none",
-            className,
-          )}
-        >
-          <Image
-            src={book.cover_url}
-            width={90}
-            height={90}
-            alt="Capa do Livro"
-          />
-          <div className="flex flex-col justify-between">
-            <div className="text-start">
-              <h3 className="leading-14 font-semibold text-gray-100">
-                {book.name}
-              </h3>
-              <span className="text-sm leading-16 text-gray-400">
-                {book.author}
-              </span>
-            </div>
-            <StarRating rate={rate} />
-          </div>
-        </button>
-      </DialogTrigger>
-      <LoginModal />
-    </Dialog>
   );
 }

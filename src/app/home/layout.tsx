@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+
 import Navbar from "./components/navbar";
 
 export const metadata = {

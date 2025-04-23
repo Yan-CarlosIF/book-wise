@@ -1,7 +1,8 @@
-import Image from "next/image";
-import StarRating from "./star-rating";
 import { Rating, User } from "@prisma/client";
 import { differenceInDays } from "date-fns";
+import Image from "next/image";
+
+import StarRating from "./star-rating";
 
 interface CommentProps {
   rating: Rating & { user: User };

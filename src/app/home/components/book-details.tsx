@@ -1,11 +1,18 @@
 "use client";
 
-import { SheetContent, SheetTitle } from "@/components/ui/sheet";
-import Image from "next/image";
-import StarRating from "./star-rating";
-import { BookmarkSimple, BookOpen } from "phosphor-react";
-import Comment from "./comment";
 import { Prisma } from "@prisma/client";
+import Image from "next/image";
+import { Session } from "next-auth";
+import { BookmarkSimple, BookOpen } from "phosphor-react";
+import { useState } from "react";
+
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { SheetContent, SheetTitle } from "@/components/ui/sheet";
+
+import Comment from "./comment";
+import CommentSection from "./comment-section";
+import LoginModal from "./login-modal";
+import StarRating from "./star-rating";
 
 type BookWithCategoriesAndRatings = Prisma.BookGetPayload<{
   include: {
@@ -24,10 +31,15 @@ type BookWithCategoriesAndRatings = Prisma.BookGetPayload<{
 
 interface BookDetailsProps {
   book: BookWithCategoriesAndRatings;
+  session: Session | null;
   rate: number;
 }
 
-export default function BookDetails({ book, rate }: BookDetailsProps) {
+export default function BookDetails({ book, rate, session }: BookDetailsProps) {
+  const loggedIn = !!session;
+
+  const [isTextAreaOpen, setIsTextAreaOpen] = useState(false);
+
   const categories = book.categories
     .map((category) => category.category.name)
     .join(", ");
@@ -77,11 +89,33 @@ export default function BookDetails({ book, rate }: BookDetailsProps) {
       </div>
       <div className="mt-20 flex items-center justify-between">
         <span className="text-sm text-gray-300">Avaliações</span>
-        <button className="cursor-pointer text-sm font-bold text-purple-100 opacity-85 transition-colors duration-300 ease-in-out hover:opacity-100">
-          Avaliar
-        </button>
+        {!loggedIn ? (
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="cursor-pointer text-sm font-bold text-purple-100 opacity-85 transition-colors duration-300 ease-in-out hover:opacity-100">
+                Avaliar
+              </button>
+            </DialogTrigger>
+            <LoginModal />
+          </Dialog>
+        ) : (
+          <button
+            onClick={() => setIsTextAreaOpen((prevState) => !prevState)}
+            disabled={isTextAreaOpen}
+            className="cursor-pointer text-sm font-bold text-purple-100 opacity-85 transition-colors duration-300 ease-in-out hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Avaliar
+          </button>
+        )}
       </div>
       <div className="mt-4 flex flex-col gap-3">
+        {isTextAreaOpen && (
+          <CommentSection
+            bookId={book.id}
+            session={session}
+            setIsTextAreaOpen={setIsTextAreaOpen}
+          />
+        )}
         {book.ratings.map((rating) => (
           <Comment key={rating.id} rating={rating} />
         ))}

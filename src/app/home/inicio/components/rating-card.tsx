@@ -1,22 +1,24 @@
-import Image from "next/image";
-
-import BookImg from "@/../public/images/books/arquitetura-limpa.png";
-import StarRating from "../../components/star-rating";
-import { Rating, Book, User } from "@prisma/client";
-
+import { Book, Rating, User } from "@prisma/client";
 import { differenceInDays } from "date-fns";
+import Image from "next/image";
+import { twMerge } from "tailwind-merge";
+
+import StarRating from "../../components/star-rating";
 
 type RatingProp = Rating & { book: Book; user: User };
 
 interface RatingCardProps {
   rating: RatingProp;
+  className?: string;
 }
 
-export default function RatingCard({ rating }: RatingCardProps) {
+export default function RatingCard({ rating, className }: RatingCardProps) {
   const dateInDays = differenceInDays(new Date(), new Date(rating.created_at));
 
   return (
-    <div className="flex flex-col rounded-lg bg-gray-700 p-6">
+    <div
+      className={twMerge("flex flex-col rounded-lg bg-gray-700 p-6", className)}
+    >
       <header className="flex justify-between">
         <div className="flex gap-4">
           <div className="from-gradient1 to-gradient2 h-10 w-10 rounded-full bg-gradient-to-b p-[2px]">

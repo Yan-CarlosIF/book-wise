@@ -1,8 +1,9 @@
+import Input from "@/app/components/input";
 import { prisma } from "@/lib/prisma";
+
 import HomeHeader from "../components/home-header";
 import PopularBookCard from "../components/popular-book-card";
 import TypeFilter from "./components/type-filter";
-import Input from "@/app/components/input";
 
 type Filters =
   | "Tudo"

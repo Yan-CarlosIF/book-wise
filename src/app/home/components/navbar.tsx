@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
 import { twMerge } from "tailwind-merge";
 
-import Logo from "../../../../public/favicon.svg";
-import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+
+import Logo from "../../../../public/favicon.svg";
 import LoginModal from "./login-modal";
 
 interface NavbarProps {

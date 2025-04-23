@@ -1,7 +1,8 @@
-import Image from "next/image";
-import StarRating from "../../components/star-rating";
 import { Book, Rating } from "@prisma/client";
 import { differenceInDays } from "date-fns";
+import Image from "next/image";
+
+import StarRating from "../../components/star-rating";
 
 interface LastReadCardProps {
   rate: Rating & { book: Book };
@@ -19,7 +20,12 @@ export default function LastReadCard({ rate }: LastReadCardProps) {
       </span>
       <div className="rounded-lg bg-gray-700 p-6">
         <div className="flex gap-6">
-          <Image src={rate.book.cover_url} height={134} alt="Capa do livro" />
+          <Image
+            src={rate.book.cover_url}
+            width={98}
+            height={134}
+            alt="Capa do livro"
+          />
           <div className="flex flex-col justify-between">
             <div>
               <h1 className="text-lg font-bold text-gray-100">

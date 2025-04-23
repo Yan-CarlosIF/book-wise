@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 import { MagnifyingGlass } from "phosphor-react";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";

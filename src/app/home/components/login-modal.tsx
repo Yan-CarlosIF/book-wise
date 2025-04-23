@@ -1,11 +1,12 @@
 "use client";
 
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { StaticImageData } from "next/image";
+import { signIn } from "next-auth/react";
+
 import GithubLogo from "/public/assets/brandsLogos/logos_github-icon.svg";
 import GoogleLogo from "/public/assets/brandsLogos/logos_google-icon.svg";
 import LoginLabel from "@/app/components/login-label";
-import { StaticImageData } from "next/image";
-import { signIn } from "next-auth/react";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 export default function LoginModal() {
   return (

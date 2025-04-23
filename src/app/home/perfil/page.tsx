@@ -1,12 +1,14 @@
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Input from "@/app/components/input";
+import { prisma } from "@/lib/prisma";
+
 import HomeHeader from "../components/home-header";
 import LastReadCard from "./components/last-read";
-import Image from "next/image";
 import ProfileFooter from "./footer";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -66,11 +68,13 @@ export default async function Page() {
 
           <div className="scrollbar-hide mt-8 h-[calc(100vh-250px)] space-y-6 overflow-y-scroll rounded-xs">
             {user?.ratings.length! > 0 ? (
-              user?.ratings.map((rate) => <LastReadCard rate={rate} />)
+              user?.ratings.map((rate) => (
+                <LastReadCard key={rate.id} rate={rate} />
+              ))
             ) : (
               <div className="flex flex-col items-center justify-center">
                 <h1 className="mt-4 text-2xl font-bold text-gray-100">
-                  Nenhum livro avaliado ainda
+                  Nenhum livro avaliado
                 </h1>
               </div>
             )}

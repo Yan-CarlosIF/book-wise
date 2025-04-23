@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { twMerge } from "tailwind-merge";
+
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const filters = [
   { label: "Tudo" },
