@@ -2,11 +2,12 @@
 
 import { Rating } from "@prisma/client";
 import { Star } from "lucide-react";
-import Image from "next/image";
 import { Session } from "next-auth";
 import { Check, X } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+import Avatar from "./avatar";
 
 interface CommentSectionProps {
   session: Session | null;
@@ -52,16 +53,15 @@ export default function CommentSection({
     <div className="flex h-[328px] flex-col rounded-[8px] bg-gray-700 p-6">
       <div className="flex justify-between">
         <div className="flex items-center gap-4">
-          <div className="from-gradient1 to-gradient2 flex size-10 items-center justify-center rounded-full bg-gradient-to-b p-[2px]">
-            <Image
-              src={session?.user?.image!}
+          {session?.user.image && (
+            <Avatar
+              src={session?.user.image}
               alt="foto de perfil"
               width={36}
               height={36}
-              style={{ height: "36px" }}
-              className="rounded-full"
+              bgSize={10}
             />
-          </div>
+          )}
           <h1 className="leading-14 font-bold text-gray-100">{firstName}</h1>
         </div>
         <div className="flex gap-1">

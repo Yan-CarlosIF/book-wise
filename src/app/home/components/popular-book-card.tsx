@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { twMerge } from "tailwind-merge";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { prisma } from "@/lib/prisma";
 

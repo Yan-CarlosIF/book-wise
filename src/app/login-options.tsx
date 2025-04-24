@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 import GithubLogo from "../../public/assets/brandsLogos/logos_github-icon.svg";
-import GoogleLogo from "../../public/assets/brandsLogos/logos_google-icon.svg";
 import RocketLogo from "../../public/assets/brandsLogos/logos_rocket-icon.svg";
 import LoginLabel from "./components/login-label";
 
@@ -20,10 +19,6 @@ export default function LoginOptions() {
       </p>
 
       <div className="mt-10 flex flex-col gap-4">
-        {/* <LoginLabel
-          img={GoogleLogo as StaticImageData}
-          content="Login com Google"
-        /> */}
         <LoginLabel
           className="fill-white"
           img={GithubLogo as StaticImageData}

@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import Logo from "../../../../public/favicon.svg";
+import Avatar from "./avatar";
 import LoginModal from "./login-modal";
 
 interface NavbarProps {
@@ -28,10 +29,7 @@ export default function Navbar({ session }: NavbarProps) {
     router.push(path);
   };
 
-  const username =
-    session?.user?.name?.length! > 15
-      ? session?.user?.name?.slice(0, 15) + "..."
-      : session?.user?.name;
+  const username = !session?.user?.name ? "Usuário" : session?.user?.name;
 
   return (
     <aside className="flex h-full w-[232px] flex-col items-center rounded-xl bg-[url(/navbar.png)] bg-cover bg-no-repeat">
@@ -111,17 +109,14 @@ export default function Navbar({ session }: NavbarProps) {
           onClick={() => signOut()}
           className="mt-auto mb-6 flex cursor-pointer items-center justify-center gap-3 text-sm font-normal text-gray-200 hover:text-gray-100"
         >
-          <div className="from-gradient1 to-gradient2 flex size-8 items-center justify-center rounded-full bg-gradient-to-b p-[2px]">
-            <Image
-              src={session?.user?.image!}
-              alt="foto de perfil"
-              width={30}
-              height={30}
-              style={{ height: "30px" }}
-              className="rounded-full"
-            />
-          </div>
-          {username}
+          <Avatar
+            src={session.user.image!}
+            alt="foto de perfil"
+            width={30}
+            height={30}
+            bgSize={8}
+          />
+          {username.length > 15 ? username.slice(0, 15) + "..." : username}
           <SignOut size={20} className="text-red-400" />
         </button>
       )}

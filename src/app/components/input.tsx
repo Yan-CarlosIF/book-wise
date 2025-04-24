@@ -1,18 +1,16 @@
 "use client";
 
-import { useRouter,useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { MagnifyingGlass } from "phosphor-react";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export default function Input({
   className,
   placeholder,
   name,
   ...props
-}: InputProps) {
+}: InputHTMLAttributes<HTMLInputElement>) {
   const router = useRouter();
   const searchParams = useSearchParams();
 

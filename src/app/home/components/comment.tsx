@@ -1,7 +1,7 @@
 import { Rating, User } from "@prisma/client";
 import { differenceInDays } from "date-fns";
-import Image from "next/image";
 
+import Avatar from "./avatar";
 import StarRating from "./star-rating";
 
 interface CommentProps {
@@ -15,16 +15,13 @@ export default function Comment({ rating }: CommentProps) {
     <div className="flex flex-col rounded-[8px] bg-gray-700 p-6">
       <div className="flex justify-between">
         <div className="flex items-center gap-4">
-          <div className="from-gradient1 to-gradient2 size-10 rounded-full bg-gradient-to-b p-[2px]">
-            <Image
-              src={rating.user.avatar_url!}
-              alt="foto de perfil"
-              width={36}
-              height={36}
-              style={{ height: "36px" }}
-              className="rounded-full"
-            />
-          </div>
+          <Avatar
+            src={rating.user.avatar_url!}
+            alt="foto de perfil"
+            width={36}
+            height={36}
+            bgSize={10}
+          />
           <div className="flex flex-col">
             <h1 className="font-bold text-gray-100">{rating.user.name}</h1>
             <span className="text-sm text-gray-200">

@@ -1,11 +1,11 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import Input from "@/app/components/input";
 import { prisma } from "@/lib/prisma";
 
+import Avatar from "../components/avatar";
 import HomeHeader from "../components/home-header";
 import LastReadCard from "./components/last-read";
 import ProfileFooter from "./footer";
@@ -52,12 +52,12 @@ export default async function Page() {
     mostReadedCategories.length > 0 ? mostReadedCategories[0].categoryId : null;
 
   const mostReadedCategory = categoryId
-    ? await prisma.category.findUnique({
-        where: {
-          id: categoryId,
-        },
-      })
+    ? ((await prisma.category.findUnique({
+        where: { id: categoryId },
+      })) ?? { name: "Nenhum livro lido" })
     : { name: "Nenhum livro lido" };
+
+  if (!user) redirect("/home/inicio");
 
   return (
     <>
@@ -67,7 +67,7 @@ export default async function Page() {
           <Input className="w-full" placeholder="Buscar livro avaliado" />
 
           <div className="scrollbar-hide mt-8 h-[calc(100vh-250px)] space-y-6 overflow-y-scroll rounded-xs">
-            {user?.ratings.length! > 0 ? (
+            {user?.ratings ? (
               user?.ratings.map((rate) => (
                 <LastReadCard key={rate.id} rate={rate} />
               ))
@@ -82,15 +82,13 @@ export default async function Page() {
         </div>
 
         <aside className="flex h-[555px] w-[308px] flex-col items-center border-l border-gray-700">
-          <div className="from-gradient1 to-gradient2 h-18 w-18 rounded-full bg-gradient-to-b p-[2px]">
-            <Image
-              src={session.user?.image!}
-              alt="foto de perfil"
-              width={72}
-              height={72}
-              className="rounded-full"
-            />
-          </div>
+          <Avatar
+            src={session.user.image!}
+            alt="foto de perfil"
+            width={72}
+            height={72}
+            bgSize={18}
+          />
 
           <div className="mt-5 flex flex-col items-center justify-center">
             <h1 className="text-xl font-bold text-gray-100">
@@ -103,8 +101,8 @@ export default async function Page() {
 
           <div className="bg-gradient-horizontal my-8 h-1 w-8 rounded-full"></div>
           <ProfileFooter
-            user={user!}
-            mostReadedCategory={mostReadedCategory?.name!}
+            user={user}
+            mostReadedCategory={mostReadedCategory?.name}
           />
         </aside>
       </div>

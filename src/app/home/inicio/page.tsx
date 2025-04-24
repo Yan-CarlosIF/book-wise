@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { prisma } from "@/lib/prisma";
 
 import HomeHeader from "../components/home-header";
@@ -65,7 +65,7 @@ export default async function Home() {
 
       <div className="mt-10 flex w-full justify-between">
         <div className="flex w-[620px] flex-col">
-          {lastRatedBook && (
+          {lastRatedBook && session?.user && (
             <>
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm text-gray-100">

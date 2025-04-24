@@ -45,7 +45,7 @@ export default async function Explorer({ searchParams }: ExplorerProps) {
   const search = searchParamsValues.Search || "";
 
   const activeFilters = Object.entries(searchParamsValues)
-    .filter(([_, value]) => value === "true")
+    .filter(([, value]) => value === "true")
     .map(([key]) => key) as Filters[];
 
   const hasFilters =
