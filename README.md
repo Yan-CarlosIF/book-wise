@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 Book Wise
 
-## Getting Started
+**Book Wise** é uma aplicação **Full Stack** desenvolvida para permitir a avaliação, categorização e análise de livros lidos. Focada em autenticação segura, interface moderna e experiência otimizada de filtragem e navegação.
 
-First, run the development server:
+![Chama](./public/app-image.png)
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- **Next.js** – Framework React com suporte a SSR/SSG.
+- **TypeScript** – Tipagem estática para maior robustez no desenvolvimento.
+- **Prisma ORM** – ORM moderno com integração ao banco de dados SQLite.
+- **SQLite** – Banco de dados leve, ideal para aplicações locais ou em estágio inicial.
+- **NextAuth.js** – Sistema de autenticação com OAuth (integração com GitHub).
+- **TailwindCSS** – Framework CSS utilitário para estilização rápida e responsiva.
+- **shadcn/ui** – Biblioteca de componentes acessíveis e estilizados com TailwindCSS.
+- **pnpm** – Gerenciador de pacotes rápido e eficiente.
+- **ESLint & Prettier** – Ferramentas para padronização e qualidade de código.
+
+---
+
+## ⚙️ Funcionalidades
+
+- ✅ Autenticação via GitHub OAuth.
+- ✅ Avaliação de livros com comentários.
+- ✅ Filtragem de livros por categoria.
+- ✅ Persistência dos filtros via URL (`searchParams`).
+- ✅ Sistema de busca com performance otimizada.
+- ✅ Interface moderna com UI consistente (TailwindCSS + shadcn).
+
+---
+
+## 🧪 Como Executar o Projeto
+
+### 1. Instale as dependências:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure as variáveis de ambiente:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Copie o arquivo `.env.example` para `.env`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+- Preencha as variáveis de ambiente (ex.: `GITHUB_ID`, `GITHUB_SECRET` etc).
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Configure e popule o banco de dados:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Execute as migrações:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm prisma migrate dev
+```
 
-## Deploy on Vercel
+Rode o seed para popular os dados iniciais:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+tsx prisma/seed.ts
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Execute o projeto
+
+#### Modo desenvolvimento:
+
+```bash
+pnpm run dev
+```
+
+#### Modo produção:
+
+```bash
+pnpm run build
+pnpm run start
+```
+
+---
+
+## 🌐 Acesse a aplicação
+
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
+
+---
+
+## 🔗 Repositório
+
+[🔗 GitHub – Yan-CarlosIF/book-wise](https://github.com/Yan-CarlosIF/book-wise)
