@@ -2,6 +2,7 @@
 
 import { Rating } from "@prisma/client";
 import { Star } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { Check, X } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -24,6 +25,7 @@ export default function CommentSection({
   const [textValue, setTextValue] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const router = useRouter();
 
   const handleCommentSectionClose = () => {
     setIsTextAreaOpen(false);
@@ -47,6 +49,7 @@ export default function CommentSection({
     });
     console.log(response);
     setIsTextAreaOpen(false);
+    router.refresh();
   };
 
   return (
